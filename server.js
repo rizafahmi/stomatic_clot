@@ -1,7 +1,21 @@
 const http = require('http')
 
+const dispatch = (url) => {
+  const [path, query] = url.split('?')
+  const [_empty, moduleName, methodName] = path.split('/')
+  console.log(moduleName, methodName)
+}
+
 const httpHandler = (request, response) => {
-  console.log(request.url)
+  // Requests
+  // const method = request.method
+  const url = request.url
+  dispatch(url)
+
+  // Response
+  response.setHeader('Content-Type', 'application/json')
+  response.setHeader('X-Powered-By', 'Stomatic Clot')
+  response.write('Welcome to Stomatic Clot')
   response.end()
 }
 

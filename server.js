@@ -10,7 +10,9 @@ const httpHandler = (request, response) => {
   // Requests
   // const method = request.method
   const url = request.url
-  dispatch(url)
+  if (url !== '/favicon.ico') {
+    dispatch(url)
+  }
 
   // Response
   response.setHeader('Content-Type', 'application/json')

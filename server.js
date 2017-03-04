@@ -1,7 +1,7 @@
 const http = require('http')
 
 const httpHandler = (request, response) => {
-  console.log(response)
+  console.log(request.url)
   response.end()
 }
 

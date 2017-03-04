@@ -2,14 +2,15 @@ const http = require('http')
 
 const dispatch = (url, cb) => {
   const [path, query] = url.split('?')
-  const [_empty, folderName, moduleName, methodName] = path.split('/')
-  const module = require(`./${folderName}/${moduleName}`)
+  const [_empty, moduleName, methodName] = path.split('/')
+  const module = require(`./lib/${moduleName}`)
   const params = query.split('&')
   let paramsObj = {}
   for (let i = 0; i < params.length; i++) {
     const items = params[i].split('=')
     paramsObj[items[0]] = items[1]
   }
+  console.log(paramsObj)
   const methodCaller = module[`${methodName}`](paramsObj)
   cb(methodCaller)
 }

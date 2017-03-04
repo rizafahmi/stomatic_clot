@@ -4,7 +4,8 @@ const dispatch = (url, cb) => {
   const [path, query] = url.split('?')
   const [_empty, folderName, moduleName, methodName] = path.split('/')
   const module = require(`./${folderName}/${moduleName}`)
-  cb(module.methods())
+  const methodCaller = module[`${methodName}`]()
+  cb(methodCaller)
 }
 
 const httpHandler = (request, response) => {

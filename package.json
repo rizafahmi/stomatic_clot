@@ -1,0 +1,12 @@
+{
+  "name": "stomatic_clot",
+  "version": "0.0.1",
+  "description": "Creating web framework from scratch",
+  "main": "server.js",
+  "author": "Riza Fahmi <rizafahmi@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server"
+  }
+}

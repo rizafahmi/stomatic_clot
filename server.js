@@ -4,11 +4,14 @@ const dispatch = (url, cb) => {
   const [path, query] = url.split('?')
   const [_, moduleName, methodName] = path.split('/')
   const module = require(`./lib/${moduleName}`)
-  const params = query.split('&')
   let paramsObj = {}
-  for (let i = 0; i < params.length; i++) {
-    const items = params[i].split('=')
-    paramsObj[items[0]] = items[1]
+
+  if (query) {
+    const params = query.split('&')
+    for (let i = 0; i < params.length; i++) {
+      const items = params[i].split('=')
+      paramsObj[items[0]] = items[1]
+    }
   }
   const methodCaller = module[`${methodName}`](paramsObj)
   cb(methodCaller)
@@ -25,8 +28,9 @@ const httpHandler = (request, response) => {
   if (url !== '/favicon.ico') {
     const startTime = new Date()
     dispatch(url, (content) => {
-      response.write(content)
-      response.end()
+      const newResponse = response
+      newResponse.write(content)
+      newResponse.end()
       const endTime = new Date() - startTime
       console.info(`[%s] %s %dms\n`, request.method, url, endTime)
     })

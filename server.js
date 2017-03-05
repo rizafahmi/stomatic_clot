@@ -2,7 +2,7 @@ const http = require('http')
 
 const dispatch = (url, cb) => {
   const [path, query] = url.split('?')
-  const [_empty, moduleName, methodName] = path.split('/')
+  const [_, moduleName, methodName] = path.split('/')
   const module = require(`./lib/${moduleName}`)
   const params = query.split('&')
   let paramsObj = {}
@@ -10,7 +10,6 @@ const dispatch = (url, cb) => {
     const items = params[i].split('=')
     paramsObj[items[0]] = items[1]
   }
-  console.log(paramsObj)
   const methodCaller = module[`${methodName}`](paramsObj)
   cb(methodCaller)
 }
@@ -24,9 +23,12 @@ const httpHandler = (request, response) => {
   response.setHeader('Content-Type', 'application/json')
   response.setHeader('X-Powered-By', 'Stomatic Clot')
   if (url !== '/favicon.ico') {
+    const startTime = new Date()
     dispatch(url, (content) => {
       response.write(content)
       response.end()
+      const endTime = new Date() - startTime
+      console.info(`[%s] %s %dms\n`, request.method, url, endTime)
     })
   }
 }
